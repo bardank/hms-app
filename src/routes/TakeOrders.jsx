@@ -6,11 +6,32 @@ import Menu from "../components/Menu";
 const TakeOrders = () => {
   const [orderData, setOrderData] = useState([{}]);
 
-  const onAdd = (item) => {
-    if (orderData.item) {
-      setOrderData((prev) => ({ ...prev, [item]: orderData.item + 1 }));
+  const onRemove = (item) => {
+    if (orderData[item].qty > 0) {
+      if (orderData.item === 1) {
+        let prevData = { ...orderData };
+        delete prevData[item];
+        setOrderData(prevData);
+      } else {
+        setOrderData((prev) => ({
+          ...prev,
+          [item]: { ...prev[item], qty: orderData[item].qty - 1 },
+        }));
+      }
+    }
+  };
+
+  const onAdd = (item, price, discount = 0) => {
+    if (orderData[item]) {
+      setOrderData((prev) => ({
+        ...prev,
+        [item]: { ...prev[item], qty: orderData[item].qty + 1 },
+      }));
     } else {
-      setOrderData((prev) => ({ ...prev, [item]: 1 }));
+      setOrderData((prev) => ({
+        ...prev,
+        [item]: { price: price, qty: 1, discount },
+      }));
     }
   };
 
@@ -18,9 +39,9 @@ const TakeOrders = () => {
     <div className="min-h-screen w-screen">
       <Navbar />
       <section className="section_wrapper flex box-border ">
-        <div className="sidebar h-full p-3">
-          <div className="rounded-md shadow-lg h-full">
-            <div className=" flex justify-center items-center bg-primary h-10 rounded-t-md">
+        <div className="sidebar">
+          <div className="shadow-lg h-full">
+            <div className=" flex justify-center items-center bg-primary h-10 border-t-4 border-white">
               <h5 className="text-center text-white font-semibold">Dine in</h5>
             </div>
             <div className="flex pt-8 pb-4 justify-center">
@@ -49,7 +70,7 @@ const TakeOrders = () => {
           </div>
         </div>
         <div className="main h-full p-3">
-          <Menu onAdd={onAdd} orderData={orderData} />
+          <Menu onAdd={onAdd} onRemove={onRemove} orderData={orderData} />
         </div>
       </section>
     </div>

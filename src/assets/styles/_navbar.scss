@@ -1,14 +1,33 @@
-.navbar{
-    height: 4.5rem;
+$sidebar: 20rem;
+$navbar: 4.5rem;
+.navbar {
+  height: $navbar;
+  z-index: 10000;
+  @apply fixed top-0 left-0;
 }
 
-.sidebar{
-    width: 40%;
+.sidebar {
+  width: $sidebar;
+  margin-top: $navbar;
+  height: calc(100vh - $navbar);
+  @apply fixed left-0 top-0 h-screen;
 }
 .main {
-    width: 60%;
+  width: 100%;
+  margin-left: $sidebar;
+  margin-top: $navbar;
+  z-index: -1;
 }
 
-.section_wrapper{
-    height: calc(100vh - 4.5rem);
+.section {
+  $left: 18rem;
+  @apply w-screen;
+  .left {
+    width: $left;
+    @apply fixed left-0 top-0 h-screen border-r border-gray-300;
+  }
+  .right {
+    margin-left: $left;
+    // @apply w-full;
+  }
 }

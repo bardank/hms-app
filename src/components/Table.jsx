@@ -2,13 +2,16 @@ import React from "react";
 import Trash from "../assets/icons/trash.svg";
 import Add from "../assets/icons/add.svg";
 import Subtract from "../assets/icons/subtract.svg";
+
 const Table = () => {
   return (
     <table className="w-full shadow-inner">
       <thead className="text-center">
-        <th></th>
-        <th className="text-xs font-normal py-2">Qty</th>
-        <th className="text-xs font-normal py-2"> Name</th>
+        <tr>
+          <th></th>
+          <th className="text-xs font-normal py-2">Qty</th>
+          <th className="text-xs font-normal py-2"> Name</th>
+        </tr>
       </thead>
       <tbody>
         <tr className="text-xs font-light text-center">

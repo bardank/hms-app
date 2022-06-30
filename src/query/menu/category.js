@@ -1,24 +1,20 @@
 import { gql } from "@apollo/client";
 
-export const GET_MENU = gql`
-  query MenuQuery($search: String) {
-    foods(
-      filters: { title: { contains: $search } }
-      pagination: { limit: 100 }
+export const GET_CATEGORY = gql`
+  query CategoryQuery($title: String) {
+    categories(
+      filters: { title: { contains: $title } }
       publicationState: PREVIEW
     ) {
       data {
         id
         attributes {
+          categoryId
           title
-          isVeg
-          price
-          descriptions
           img {
             data {
               attributes {
                 url
-                previewUrl
               }
             }
           }
