@@ -1,4 +1,4 @@
-$sidebar: 20rem;
+$sidebar: 18.5rem;
 $navbar: 4.5rem;
 .navbar {
   height: $navbar;
@@ -10,13 +10,14 @@ $navbar: 4.5rem;
   width: $sidebar;
   margin-top: $navbar;
   height: calc(100vh - $navbar);
+  overflow-y: scroll;
   @apply fixed left-0 top-0 h-screen;
 }
 .main {
   width: 100%;
   margin-left: $sidebar;
   margin-top: $navbar;
-  z-index: -1;
+  // z-index: -1;
 }
 
 .section {

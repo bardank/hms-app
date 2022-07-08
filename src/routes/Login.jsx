@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { Link, useNavigate } from "react-router-dom";
-import { LOGIN } from "../query/login/login";
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { LOGIN } from "../query/auth";
 import { useUserStore } from "../store";
 
 const Login = ({ ...props }) => {
@@ -13,25 +13,22 @@ const Login = ({ ...props }) => {
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
 
-  const [loginPost, { data, loading, error, }] = useMutation(LOGIN);
+  const [loginPost, { data, loading, error }] = useMutation(LOGIN);
 
   useEffect(() => {
     if (data) {
-      setUser(data.login.jwt, data.login.user)
+      setUser(data.login.jwt, data.login.user);
     }
 
-    return () => {
-
-    };
+    return () => {};
   }, [data]);
 
   useEffect(() => {
     if (user.email.length > 5) {
-      navigation("/live-orders");
+      navigation("/dashboard");
     }
     return () => {};
   }, [user]);
-  
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -58,7 +55,7 @@ const Login = ({ ...props }) => {
             <div className="mt-4">
               <ul className="flex">
                 <li>
-                  <Link to="/live-orders" className="underline">
+                  <Link to="/liveorders" className="underline">
                     Live orders
                   </Link>
                 </li>

@@ -2,8 +2,19 @@ import React from "react";
 import { ReactComponent as Add } from "../../assets/icons/add.svg";
 import { ReactComponent as Subtract } from "../../assets/icons/subtract.svg";
 import { ReactComponent as Back } from "../../assets/icons/Back.svg";
+import OrderTable from "./OrderTable";
 
-const PlaceOrder = ({loading, submitOrder, orderData, onPlaceOrder, onAdd, onRemove, total, ...props }) => {
+const PlaceOrder = ({
+  prevOders,
+  loading,
+  submitOrder,
+  orderData,
+  onPlaceOrder,
+  onAdd,
+  onRemove,
+  total,
+  ...props
+}) => {
   return (
     <div className="w-screen h-screen">
       <div className="pt-2 pb-8 px-4">
@@ -58,10 +69,13 @@ const PlaceOrder = ({loading, submitOrder, orderData, onPlaceOrder, onAdd, onRem
           <div className="p-4 pt-8">
             <div className=" py-2">
               <button
-                className={"text-sm rounded font-semibold py-3 px-4 bg-primary text-white " + (loading && " opacity-30")}
+                className={
+                  "text-sm rounded font-semibold py-3 px-4 bg-primary text-white " +
+                  (loading && " opacity-30")
+                }
                 onClick={submitOrder}
               >
-                {loading ? "please wait" :"place order"}
+                {loading ? "please wait" : "place order"}
               </button>
             </div>
             <div className="bg-gray-200 rounded-md p-4">
@@ -72,6 +86,8 @@ const PlaceOrder = ({loading, submitOrder, orderData, onPlaceOrder, onAdd, onRem
             </div>
           </div>
         </div>
+        <h2 className="text-lg text-center">Your orders</h2>
+        <OrderTable data={prevOders}  />
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const Navbar = ({
         className="py-2 w-screen flex justify-center items-center bg-primary text-center"
         onClick={(e) => onClick(`${location.pathname}/myorders`)}
       >
-        <div className="text-center text-white font-semibold text-xl">
+        <div className="text-center text-white coursor-pointer font-semibold text-xl">
           My Orders
         </div>
       </div>

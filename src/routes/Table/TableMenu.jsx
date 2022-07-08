@@ -1,10 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Menu from "../../components/Menu";
 import Navbar from "../../components/Table/Navbar";
 import PlaceOrder from "../../components/Table/PlaceOrder";
 import { CREATE_ORDER } from "../../query/order/order";
+import { MY_ORDERS, UPDATE_ORDER } from "../../query/order/order";
 
 const MenuTable = () => {
   const navigation = useNavigate();
@@ -15,6 +16,16 @@ const MenuTable = () => {
   const [orderData, setOrderData] = useState({});
   const [total, setTotal] = useState(0);
   const [createOrder, { data, loading, error }] = useMutation(CREATE_ORDER);
+  const [updateOrder] = useMutation(UPDATE_ORDER);
+  const myOrders = useQuery(MY_ORDERS, {
+    variables: { billed: false, table: parseInt(params.id) },
+  });
+
+  useEffect(() => {
+    if (placeOrder) {
+      myOrders.refetch({ billed: false, table: parseInt(params.id) });
+    }
+  }, [placeOrder]);
 
   useEffect(() => {
     let total = 0;
@@ -63,14 +74,40 @@ const MenuTable = () => {
 
   const submitOrder = () => {
     if (parseInt(params.id) > 0) {
-      let details = { total, details: { ...orderData } };
-      createOrder({
-        variables: {
-          table: parseInt(params.id),
-          billed: false,
-          details: details,
-        },
-      });
+      if (myOrders.data && myOrders.data.orders.data.length > 0) {
+        let details = [
+          {
+            total,
+            details: { ...orderData },
+            orderedAt: new Date(),
+            orderedBy: "customer",
+          },
+          ...myOrders.data.orders.data[0].attributes.details,
+        ];
+        updateOrder({
+          variables: {
+            id: myOrders.data.orders.data[0].id,
+            details: details,
+          },
+        });
+      } else {
+        let details = [
+          {
+            total,
+            details: { ...orderData },
+            orderedAt: new Date(),
+            orderedBy: "customer",
+          },
+        ];
+        createOrder({
+          variables: {
+            table: parseInt(params.id),
+            billed: false,
+            details: details,
+          },
+        });
+      }
+
       setOrderData({});
       setTotal(0);
       setPlaceOrder(false);
@@ -90,6 +127,7 @@ const MenuTable = () => {
             total={total}
             loading={loading}
             submitOrder={submitOrder}
+            prevOders={myOrders.data}
           />
         ) : (
           <Menu onAdd={onAdd} onRemove={onRemove} orderData={orderData} />

@@ -15,3 +15,15 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  query Me {
+    me {
+      id
+      username
+      email
+      confirmed
+      blocked
+    }
+  }
+`;

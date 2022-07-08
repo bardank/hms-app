@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Table = () => {
-  const tables = [1, 2, 3, 4, 5, , 6, 7, 8, 9, 10];
+  const tables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <section className="w-screen h-screen">
       <div className="p-2 lg:p-8">

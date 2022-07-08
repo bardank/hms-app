@@ -1,5 +1,5 @@
 import create from "zustand";
-import { devtools, persist } from "zustand/middleware";
+// import { devtools, persist } from "zustand/middleware";
 
 const useStore = create((set) => ({
   user: {
@@ -8,7 +8,9 @@ const useStore = create((set) => ({
     role: "",
   },
   setUser: (token, data) => {
-    localStorage.setItem("qr-waiter", token);
+    if(token){
+      localStorage.setItem("qr-waiter", token);
+    }
     set((state) => ({
       user: {
         name: data.username,

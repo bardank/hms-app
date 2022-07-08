@@ -13,6 +13,36 @@ export const CREATE_ORDER = gql`
   }
 `;
 
+export const UPDATE_ORDER = gql`
+  mutation updateOrder($id: ID!, $details: JSON) {
+    updateOrder(id: $id, data: { details: $details }) {
+      data {
+        id
+        attributes {
+          billed
+          tableNo
+          details
+        }
+      }
+    }
+  }
+`;
+
+export const BILLED_ORDER = gql`
+  mutation updateOrder($id: ID!, $billed: Boolean) {
+    updateOrder(id: $id, data: { billed: $billed }) {
+      data {
+        id
+        attributes {
+          billed
+          tableNo
+          details
+        }
+      }
+    }
+  }
+`;
+
 export const MY_ORDERS = gql`
   query MyOrders($billed: Boolean, $table: Int) {
     orders(

@@ -1,36 +1,45 @@
 import React from "react";
-import Trash from "../assets/icons/trash.svg";
-import Add from "../assets/icons/add.svg";
-import Subtract from "../assets/icons/subtract.svg";
+import { ReactComponent as Add } from "../assets/icons/add.svg";
+import { ReactComponent as Subtract } from "../assets/icons/subtract.svg";
 
-const Table = () => {
+const Table = ({ total, orderData, onRemove, onAdd }) => {
   return (
-    <table className="w-full shadow-inner">
-      <thead className="text-center">
+    <table className="w-full border border-gray-300 rounded-md">
+      <thead className="text-center border-b border-gray-300">
         <tr>
-          <th></th>
-          <th className="text-xs font-normal py-2">Qty</th>
-          <th className="text-xs font-normal py-2"> Name</th>
+          <th className="text-sm font-semibold py-2">Qty</th>
+          <th className="text-sm font-semibold py-2"> Name</th>
+          <th className="text-sm font-semibold py-2">price</th>
         </tr>
       </thead>
       <tbody>
-        <tr className="text-xs font-light text-center">
-          <td className="">
-            <img src={Trash} alt="" className="h-4" />
-          </td>
-          <td className="py-2">
-            <div className="flex justify-between">
-              <img src={Add} alt="" className="h-4 cursor-pointer" />
-              <p className="cursor-default">2</p>
-              <img src={Subtract} alt="" className="h-4 cursor-pointer" />
-            </div>
-          </td>
-          <td>Momo asdas </td>
-        </tr>
-        <tr>
-          <td className="text-center font-normal text-primary">Total</td>
+        {Object.entries(orderData).map(([key, value]) => (
+          <tr className="text-center border-b border-gray-300" key={key}>
+            <td>
+              <div className="flex justify-between items-center">
+                <button>
+                  <Add
+                    className="h-4 cursor-pointer"
+                    onClick={(e) => onAdd(key, value.price)}
+                  />
+                </button>
+                <span className="">{value.qty}</span>
+                <button>
+                  <Subtract
+                    className="h-4 cursor-pointer"
+                    onClick={(e) => onRemove(key)}
+                  />
+                </button>
+              </div>
+            </td>
+            <td className="text-sm">{key}</td>
+            <td className="text-center text-sm">{value.price}</td>
+          </tr>
+        ))}
+        <tr className="text-center">
           <td></td>
-          <td className="text-center">500</td>
+          <td>Subtotal</td>
+          <td>{total}</td>
         </tr>
       </tbody>
     </table>
