@@ -7,6 +7,7 @@ import { GET_MENU } from "../query/menu/menu";
 import { GET_CATEGORY } from "../query/menu/category";
 import { config } from "../utils/config";
 
+// menu page for waiter side
 const Menu = ({ onAdd, orderData, onRemove }) => {
   const [searchFood, setSearchFood] = useState("");
   const { loading, error, data, refetch } = useQuery(GET_MENU, {

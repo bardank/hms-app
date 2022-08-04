@@ -3,13 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import Login from "./routes/Login";
 import TakeOrders from "./components/dashboard/TakeOrders";
-import LiveOrders from "./components/dashboard/LiveOrders";
+import LiveOrders from "./components/dashboard/Orders";
 import Table from "./routes/Table/Table";
 import MenuTable from "./routes/Table/TableMenu";
 import MyOrders from "./components/Table/MyOrders";
 import { useUserStore } from "./store";
 import { GET_USER } from "./query/auth";
-import PrivateRouter from "./components/PrivateRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard/liveorders/*" element={<LiveOrders />} />
+          <Route path="/dashboard/orders/*" element={<LiveOrders />} />
           <Route path="/dashboard/takeorders" element={<TakeOrders />} />
           <Route path="/dashboard" element={<TakeOrders />} />
         </Route>

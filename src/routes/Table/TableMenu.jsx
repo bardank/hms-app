@@ -18,12 +18,12 @@ const MenuTable = () => {
   const [createOrder, { data, loading, error }] = useMutation(CREATE_ORDER);
   const [updateOrder] = useMutation(UPDATE_ORDER);
   const myOrders = useQuery(MY_ORDERS, {
-    variables: { billed: false, table: parseInt(params.id) },
+    variables: { cleared: false, table: parseInt(params.id) },
   });
 
   useEffect(() => {
     if (placeOrder) {
-      myOrders.refetch({ billed: false, table: parseInt(params.id) });
+      myOrders.refetch({ cleared: false, table: parseInt(params.id) });
     }
   }, [placeOrder]);
 
@@ -74,39 +74,20 @@ const MenuTable = () => {
 
   const submitOrder = () => {
     if (parseInt(params.id) > 0) {
-      if (myOrders.data && myOrders.data.orders.data.length > 0) {
-        let details = [
-          {
-            total,
-            details: { ...orderData },
-            orderedAt: new Date(),
-            orderedBy: "customer",
-          },
-          ...myOrders.data.orders.data[0].attributes.details,
-        ];
-        updateOrder({
-          variables: {
-            id: myOrders.data.orders.data[0].id,
-            details: details,
-          },
-        });
-      } else {
-        let details = [
-          {
-            total,
-            details: { ...orderData },
-            orderedAt: new Date(),
-            orderedBy: "customer",
-          },
-        ];
-        createOrder({
-          variables: {
-            table: parseInt(params.id),
-            billed: false,
-            details: details,
-          },
-        });
-      }
+      let details = {
+        total,
+        details: { ...orderData },
+        orderedBy: "customer",
+      };
+      createOrder({
+        variables: {
+          table: parseInt(params.id),
+          cleared: false,
+          details: details,
+          confirmOrder: false,
+          confirmedBy: "",
+        },
+      });
 
       setOrderData({});
       setTotal(0);

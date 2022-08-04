@@ -3,13 +3,13 @@ import React, {Fragment} from 'react'
 const OrderTable = ({data, ...props}) => {
   return (
     <Fragment>
-        
-      {(data && data.orders.data.length > 0) &&
-        data.orders.data[0].attributes.details.map((item, i) => (
-          <li className="pb-6" key={i}>
-            {/* <div>
-              <h4 className="text-center font-semibold">Order {i + 1}</h4>
-            </div> */}
+      {data &&
+        data.orders.data.length > 0 &&
+        data.orders.data.map((orderItem, i) => (
+          <li className="pb-6" key={orderItem.id}>
+            <div>
+              <h4 className="text-center font-semibold">order id: {orderItem.id}</h4>
+            </div>
             <div className="w-full px-8">
               <table className="w-full border border-gray-300 ">
                 <thead className="text-center bg-primary ">
@@ -20,7 +20,7 @@ const OrderTable = ({data, ...props}) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(item.details).map(
+                  {Object.entries(orderItem.attributes.details.details).map(
                     ([key, value]) => (
                       <tr
                         className="text-center border-b border-gray-200"
@@ -36,7 +36,7 @@ const OrderTable = ({data, ...props}) => {
                     <td className="font-semibold">Subtotal</td>
                     <td></td>
                     <td className="font-semibold">
-                      {item.total}
+                      {orderItem.attributes.details.total}
                     </td>
                   </tr>
                 </tbody>

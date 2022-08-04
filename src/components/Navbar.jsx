@@ -5,6 +5,7 @@ import { ReactComponent as Logout } from "../assets/icons/logout.svg";
 import moment from "moment";
 import { useUserStore } from "../store";
 
+//Navbar for customer order page
 const Navbar = ({ ...props }) => {
   const date = new Date();
   const removeUser = useUserStore((state) => state.removeUser);
@@ -23,7 +24,7 @@ const Navbar = ({ ...props }) => {
         
         </NavItem> */}
         <NavItem>
-          <Link to={"/dashboard/liveorders"}>Live-orders</Link>
+          <Link to={"/dashboard/orders"}>Orders</Link>
         </NavItem>
       </NavList>
       <NavList>
@@ -38,7 +39,7 @@ const Navbar = ({ ...props }) => {
         <li className="font-semibold text-sm"></li>
       </NavList>
       <NavList>
-        <li>
+        {/* <li>
           <img
             src={
               "https://images.unsplash.com/photo-1512485800893-b08ec1ea59b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
@@ -46,7 +47,7 @@ const Navbar = ({ ...props }) => {
             className="h-12 w-12 rounded-full p-1 object-cover "
             alt="Logo"
           />
-        </li>
+        </li> */}
         <li>
           <span className="px-4 font-medium text-md">John</span>
         </li>
@@ -67,5 +68,5 @@ export const NavList = ({ ...props }) => {
 };
 
 export const NavItem = ({ ...props }) => {
-  return <li className=" px-4  cursor-pointer underline">{props.children}</li>;
+  return <li className=" px-4  cursor-pointer text-md font-semibold">{props.children}</li>;
 };

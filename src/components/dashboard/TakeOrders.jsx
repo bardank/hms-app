@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Navbar from "../Navbar";
 import Menu from "../Menu";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Modal } from "react-daisyui";
-import { CREATE_ORDER } from "../../query/order/order";
+import { CREATE_ORDER, MY_ORDERS, UPDATE_ORDER } from "../../query/order/order";
 import Sidebar from "../Sidebar";
+import { useUserStore } from "../../store";
 
-const TakeOrders = () => {
-  const [showTableModel, setShowTableModel] = useState(true);
-  // const navigation = useNavigate();
-  // const location = useLocation();
-  const params = useParams();
-
-  const [placeOrder, setPlaceOrder] = useState(false);
+const TakeOrders = ({ ...props }) => {
+  const [tableNo, setTableNo] = useState(1);
   const [orderData, setOrderData] = useState({});
   const [total, setTotal] = useState(0);
   const [createOrder, { data, loading, error }] = useMutation(CREATE_ORDER);
+  const myOrders = useQuery(MY_ORDERS, {
+    variables: { cleared: false, table: tableNo },
+  });
+  const user = useUserStore((state) => state.user);
 
+  //calculate total
   useEffect(() => {
     let total = 0;
     Object.entries(orderData).map(([key, value]) => {
@@ -30,6 +31,7 @@ const TakeOrders = () => {
     };
   }, [orderData]);
 
+  //remove item from order
   const onRemove = (item) => {
     if (orderData[item].qty >= 0) {
       if (orderData[item].qty === 1) {
@@ -45,6 +47,7 @@ const TakeOrders = () => {
     }
   };
 
+  //add item from order
   const onAdd = (item, price, discount = 0) => {
     if (orderData[item]) {
       setOrderData((prev) => ({
@@ -59,23 +62,47 @@ const TakeOrders = () => {
     }
   };
 
-  const onPlaceOrder = () => {
-    setPlaceOrder(!placeOrder);
+  //select table no
+  const onSelectTable = (e) => {
+    setTableNo(e.target.value);
   };
 
-  const submitOrder = () => {
-    let details = { total, details: { ...orderData } };
-    createOrder({
-      variables: {
-        table: parseInt(params.id),
-        billed: false,
-        details: details,
-      },
-    });
-    setOrderData({});
-    setTotal(0);
-    setPlaceOrder(false);
-    // navigation(`${location.pathname}/myorders`);
+  const submitOrder = async () => {
+    try {
+      let details;
+      if (parseInt(tableNo) > 0) {
+        details = {
+          total,
+          details: { ...orderData },
+          orderedAt: new Date(),
+          orderedBy: "customer",
+        };
+        createOrder({
+          variables: {
+            table: parseInt(tableNo),
+            cleared: false,
+            details: details,
+            confirmOrder: true,
+            confirmedBy: user.name,
+          },
+        });
+
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const body = JSON.stringify({ tableNo, orderData });
+
+        // const print = await axios.post("http://localhost:1337/api/print", body, config);
+        // console.log("print")
+
+        // setOrderData({});
+        // setTotal(0);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -87,6 +114,8 @@ const TakeOrders = () => {
           onRemove={onRemove}
           orderData={orderData}
           total={total}
+          placeOrder={submitOrder}
+          onSelectTable={onSelectTable}
         />
         <div className="main h-full p-3">
           <Menu onAdd={onAdd} onRemove={onRemove} orderData={orderData} />

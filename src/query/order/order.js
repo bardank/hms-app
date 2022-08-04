@@ -1,8 +1,22 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_ORDER = gql`
-  mutation createOrder($table: Int, $billed: Boolean, $details: JSON) {
-    createOrder(data: { tableNo: $table, details: $details, billed: $billed }) {
+  mutation createOrder(
+    $table: Int
+    $cleared: Boolean
+    $details: JSON
+    $confirmOrder: Boolean
+    $confirmedBy: String
+  ) {
+    createOrder(
+      data: {
+        tableNo: $table
+        cleared: $cleared
+        details: $details
+        confirmOrder: $confirmOrder
+        confirmedBy: $confirmedBy
+      }
+    ) {
       data {
         id
         attributes {
@@ -19,7 +33,7 @@ export const UPDATE_ORDER = gql`
       data {
         id
         attributes {
-          billed
+          cleared
           tableNo
           details
         }
@@ -28,13 +42,13 @@ export const UPDATE_ORDER = gql`
   }
 `;
 
-export const BILLED_ORDER = gql`
-  mutation updateOrder($id: ID!, $billed: Boolean) {
-    updateOrder(id: $id, data: { billed: $billed }) {
+export const CLEARED_ORDER = gql`
+  mutation updateOrder($id: ID!, $cleared: Boolean) {
+    updateOrder(id: $id, data: { cleared: $cleared }) {
       data {
         id
         attributes {
-          billed
+          cleared
           tableNo
           details
         }
@@ -44,15 +58,34 @@ export const BILLED_ORDER = gql`
 `;
 
 export const MY_ORDERS = gql`
-  query MyOrders($billed: Boolean, $table: Int) {
+  query MyOrders($cleared: Boolean, $table: Int) {
     orders(
-      filters: { billed: { eq: $billed }, tableNo: { eq: $table } }
+      filters: { cleared: { eq: $cleared }, tableNo: { eq: $table } }
       publicationState: PREVIEW
     ) {
       data {
         id
         attributes {
-          billed
+          cleared
+          tableNo
+          details
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+export const LIVE_ORDERS = gql`
+  query LiveOrders($cleared: Boolean) {
+    orders(
+      filters: { cleared: { eq: $cleared } }
+      publicationState: PREVIEW
+    ) {
+      data {
+        id
+        attributes {
+          cleared
           tableNo
           details
           updatedAt

@@ -11,7 +11,7 @@ $navbar: 4.5rem;
   margin-top: $navbar;
   height: calc(100vh - $navbar);
   overflow-y: scroll;
-  @apply fixed left-0 top-0 h-screen;
+  @apply fixed left-0 bottom-0;
 }
 .main {
   width: 100%;

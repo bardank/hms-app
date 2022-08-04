@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ReactComponent as Add } from "../../assets/icons/add.svg";
 import { ReactComponent as Subtract } from "../../assets/icons/subtract.svg";
 import { ReactComponent as Back } from "../../assets/icons/Back.svg";
@@ -15,6 +16,12 @@ const PlaceOrder = ({
   total,
   ...props
 }) => {
+  const navigation = useNavigate();
+  const params = useParams();
+  const goBack = () => {
+    navigation(`/table/${params.id}`);
+  };
+
   return (
     <div className="w-screen h-screen">
       <div className="pt-2 pb-8 px-4">
@@ -86,8 +93,21 @@ const PlaceOrder = ({
             </div>
           </div>
         </div>
-        <h2 className="text-lg text-center">Your orders</h2>
-        <OrderTable data={prevOders}  />
+        <h2 className="text-lg font-semibold text-center">Your orders</h2>
+        <OrderTable data={prevOders} />
+        {prevOders.orders.data.length === 0 && (
+          <Fragment>
+            <p className="text-center">
+              Seems like you have not ordered anything yet
+            </p>
+            <p
+              className="text-center text-red-600 underline cursor-pointer"
+              onClick={goBack}
+            >
+              lets order something for you 😊
+            </p>
+          </Fragment>
+        )}
       </div>
     </div>
   );

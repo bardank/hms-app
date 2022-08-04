@@ -26,17 +26,19 @@ const Navbar = ({
           className="py-2 px-4 text-white bg-red-500 cursor-pointer flex justify-between items-center"
           onClick={onPlaceOrder}
         >
-          Place order of रू {total > 0 ? total : ""}
+          <p className="cursor-pointer">
+            Place order of रू {total > 0 ? total : ""}
+          </p>
           <Arrows className="w-4 h-4" />
         </div>
       )}
       <div
-        className="py-2 w-screen flex justify-center items-center bg-primary text-center"
+        className="py-2 w-screen flex justify-center items-center cursor-pointer bg-primary text-center"
         onClick={(e) => onClick(`${location.pathname}/myorders`)}
       >
-        <div className="text-center text-white coursor-pointer font-semibold text-xl">
+        <p className="text-center text-white coursor-pointer font-semibold text-xl">
           My Orders
-        </div>
+        </p>
       </div>
 
       {/* <ul className="flex px-2 py-2 w-screen bg-primary">

@@ -55,8 +55,8 @@ const Login = ({ ...props }) => {
             <div className="mt-4">
               <ul className="flex">
                 <li>
-                  <Link to="/liveorders" className="underline">
-                    Live orders
+                  <Link to="/orders" className="underline">
+                    Orders
                   </Link>
                 </li>
               </ul>

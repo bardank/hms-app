@@ -9,11 +9,11 @@ const MyOrders = ({ ...props }) => {
   const navigation = useNavigate();
   const params = useParams();
   const { loading, error, data, refetch } = useQuery(MY_ORDERS, {
-    variables: { billed: false, table : parseInt(params.id) },
+    variables: { cleared: false, table : parseInt(params.id) },
   });
 
   useEffect(()=>{
-    refetch({ billed: false, table: parseInt(params.id) });
+    refetch({ cleared: false, table: parseInt(params.id) });
   },[])
 
   const goBack = () => {

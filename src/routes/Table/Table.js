@@ -14,7 +14,7 @@ const Table = () => {
             <div className="p-4 shrink-0" key={i}>
               <Link
                 className="border-primary text-primary border-2 rounded-md p-2"
-                to={`/table/${i}`} >
+                to={`/table/${item}`} >
                 Table {item}
               </Link>
             </div>

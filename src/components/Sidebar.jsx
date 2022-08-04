@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
+import { useQuery, useMutation } from "@apollo/client";
+import { MY_ORDERS } from "../query/order/order";
+import axios from "axios";
 
-const Sidebar = ({ onAdd, onRemove, orderData, total }) => {
+const Sidebar = ({
+  onAdd,
+  onRemove,
+  orderData,
+  total,
+  tableNo,
+  onSelectTable,
+  placeOrder,
+}) => {
   const tables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   return (
     <div className="sidebar">
       <div className="shadow-lg h-full">
@@ -12,7 +24,11 @@ const Sidebar = ({ onAdd, onRemove, orderData, total }) => {
         <div className="flex pt-8 pb-4 justify-center">
           <div className="flex flex-col space-y-1">
             <div>
-              <select className="bg-primary py-2 px-4 text-white text-sm hover:opacity-90 rounded-md">
+              <select
+                value={tableNo}
+                onChange={(e) => onSelectTable(e)}
+                className="bg-primary py-2 px-4 text-white text-sm hover:opacity-90 rounded-md"
+              >
                 {tables.map((table, item) =>
                   tables.length !== parseInt(table) - 1 ? (
                     <option value={table} key={item}>
@@ -40,10 +56,15 @@ const Sidebar = ({ onAdd, onRemove, orderData, total }) => {
               orderData={orderData}
               total={total}
             />
-            <div className="float-right pt-2">
-              <button className="p-1 rounded-md bg-primary text-white text-sm">
-                place order
-              </button>
+            <div className="float-right py-2">
+              {total > 0 && (
+                <button
+                  onClick={placeOrder}
+                  className="py-2 px-2 rounded-md bg-primary text-white text-sm"
+                >
+                  place order
+                </button>
+              )}
             </div>
           </div>
         </div>
