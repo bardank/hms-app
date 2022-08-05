@@ -75,7 +75,7 @@ const TakeOrders = ({ ...props }) => {
           total,
           details: { ...orderData },
           orderedAt: new Date(),
-          orderedBy: "customer",
+          orderedBy: user.name,
         };
         createOrder({
           variables: {
@@ -97,8 +97,9 @@ const TakeOrders = ({ ...props }) => {
         // const print = await axios.post("http://localhost:1337/api/print", body, config);
         // console.log("print")
 
-        // setOrderData({});
-        // setTotal(0);
+        setOrderData({});
+        setTotal(0);
+        myOrders.refetch({ cleared: false, table: parseInt(tableNo) });
       }
     } catch (error) {
       console.log(error);
@@ -114,8 +115,10 @@ const TakeOrders = ({ ...props }) => {
           onRemove={onRemove}
           orderData={orderData}
           total={total}
+          tableNo={tableNo}
           placeOrder={submitOrder}
           onSelectTable={onSelectTable}
+          myOrders={myOrders}
         />
         <div className="main h-full p-3">
           <Menu onAdd={onAdd} onRemove={onRemove} orderData={orderData} />

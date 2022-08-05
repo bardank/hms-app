@@ -4,6 +4,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { MY_ORDERS, CLEARED_ORDER, LIVE_ORDERS } from "../../query/order/order";
 import { useUserStore } from "../../store";
 import moment from "moment";
+import OrderDisplayTable from "../OrderDisplayTable";
 
 const Orders = ({ ...props }) => {
   const [tableNo, setTableNo] = useState(1);
@@ -121,52 +122,15 @@ const Orders = ({ ...props }) => {
                           </p>
                         </div>
 
-                        <table className="w-full border border-gray-300 ">
-                          <thead className="text-center bg-primary ">
-                            <tr className="text-white">
-                              <th className="text-sm font-semibold py-2">
-                                Name
-                              </th>
-                              <th className="text-sm font-semibold py-2">
-                                Qty
-                              </th>
-                              <th className="text-sm font-semibold py-2">
-                                Price
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {Object.entries(
-                              item.attributes.details.details
-                            ).map(([key, value]) => (
-                              <tr
-                                className="text-center border-b border-gray-200"
-                                key={key}
-                              >
-                                <td className="text-center text-sm">{key}</td>
-                                <td className="text-center text-sm">
-                                  {value.qty}
-                                </td>
-                                <td className="text-center text-sm">
-                                  {value.price}
-                                </td>
-                              </tr>
-                            ))}
-                            <tr className="text-center ">
-                              <td className="font-semibold">Subtotal</td>
-                              <td></td>
-                              <td className="font-semibold">
-                                {item.attributes.details.total}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <button
-                          onClick={print}
-                          className="text-white rounded bg-primary px-4 py-2 my-4"
-                        >
-                          Print order
-                        </button>
+                        <OrderDisplayTable order={item} />
+                        {item.attributes.details.orderedBy === "customer" && (
+                          <button
+                            onClick={print}
+                            className="text-white rounded bg-primary px-4 py-2 my-4"
+                          >
+                            Confirm order
+                          </button>
+                        )}
                       </div>
                     </li>
                   </ul>
@@ -217,46 +181,15 @@ const Orders = ({ ...props }) => {
                         </p>
                       </div>
 
-                      <table className="w-full border border-gray-300 ">
-                        <thead className="text-center bg-primary ">
-                          <tr className="text-white">
-                            <th className="text-sm font-semibold py-2">Name</th>
-                            <th className="text-sm font-semibold py-2">Qty</th>
-                            <th className="text-sm font-semibold py-2">
-                              Price
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {Object.entries(order.attributes.details).map(
-                            ([key, value]) => (
-                              <tr
-                                className="text-center border-b border-gray-200"
-                                key={key}
-                              >
-                                <td className="text-center text-sm">{key}</td>
-                                <td className="text-center text-sm">
-                                  {value.qty}
-                                </td>
-                                <td className="text-center text-sm">
-                                  {value.price}
-                                </td>
-                              </tr>
-                            )
-                          )}
-                          <tr className="text-center ">
-                            <td className="font-semibold">Subtotal</td>
-                            <td></td>
-                            <td className="font-semibold">{order.attributes.total}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <button
-                        onClick={print}
-                        className="text-white rounded bg-primary px-4 py-2 my-4"
-                      >
-                        Print order
-                      </button>
+                      <OrderDisplayTable order={order} />
+                      {order.attributes.details.orderedBy === "customer" && (
+                        <button
+                          onClick={print}
+                          className="text-white rounded bg-primary px-4 py-2 my-4"
+                        >
+                          Confirm order
+                        </button>
+                      )}
                     </div>
                   </li>
                 ))}

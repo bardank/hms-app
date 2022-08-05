@@ -2,6 +2,7 @@ import React from "react";
 import { ReactComponent as Add } from "../assets/icons/add.svg";
 import { ReactComponent as Subtract } from "../assets/icons/subtract.svg";
 
+//take order table
 const Table = ({ total, orderData, onRemove, onAdd }) => {
   return (
     <table className="w-full border border-gray-300 rounded-md">
